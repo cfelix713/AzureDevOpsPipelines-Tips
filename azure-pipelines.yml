@@ -24,7 +24,7 @@ steps:
   inputs:
     provider: 'azurerm'
     command: 'init'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/skip-step'
+    workingDirectory: '$(System.DefaultWorkingDirectory'
     backendServiceArm: '$(subscription)'
     backendAzureRmResourceGroupName: '$(resourceGroup)'
     backendAzureRmStorageAccountName: '$(storageAccount)'
@@ -36,14 +36,14 @@ steps:
   inputs:
     provider: 'azurerm'
     command: 'plan'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/skip-step'
+    workingDirectory: '$(System.DefaultWorkingDirectory)'
     commandOptions: '-out=tfplan'
     environmentServiceNameAzureRM: '$(subscription)'
 
 - task: PowerShell@2
   displayName: detect any terraform change
   inputs:
-    workingDirectory: '$(System.DefaultWorkingDirectory)/skip-step'
+    workingDirectory: '$(System.DefaultWorkingDirectory)'
     targetType: 'inline'
     script: |
       $plan = $(terraform show -json tfplan | ConvertFrom-Json)
@@ -64,6 +64,6 @@ steps:
   inputs:
     provider: 'azurerm'
     command: 'apply'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/skip-step'
+    workingDirectory: '$(System.DefaultWorkingDirectory)'
     commandOptions: 'tfplan'
     environmentServiceNameAzureRM: '$(subscription)'
